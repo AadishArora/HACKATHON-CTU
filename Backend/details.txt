@@ -1,0 +1,177 @@
+main.py
+- **Description**: Simple entry point file for running the application
+- **Imports**: The app object from app.py
+- **Function**: Runs the Flask app on port 5000  / 5001
+
+Data Files
+
+### Training.csv
+- **Description**: Main dataset containing disease-symptom relationships
+- **Used for**: Training the model to associate symptoms with diseases
+
+### Symptom-severity.csv
+- **Description**: Contains severity weights for different symptoms
+- **Used for**: Weighing symptoms by severity in the diagnosis algorithm
+
+### description.csv
+- **Description**: Contains detailed descriptions of various diseases
+- **Used for**: Providing information about diagnosed conditions
+
+### diets.csv
+- **Description**: Contains dietary recommendations for different diseases
+- **Used for**: Providing personalized diet plans based on diagnosis
+
+### medications.csv
+- **Description**: Contains medication recommendations for different diseases
+- **Used for**: Suggesting appropriate medications for diagnosed conditions
+
+### precautions_df.csv
+- **Description**: Contains precautionary measures for different diseases
+- **Used for**: Advising patients on preventative actions
+
+### symtoms_df.csv
+- **Description**: Comprehensive symptom data 
+- **Used for**: Creating the symptom corpus for NLP matching
+
+### workout_df.csv
+- **Description**: Contains exercise recommendations for different diseases
+- **Used for**: Suggesting appropriate workout plans based on diagnosis
+
+Static Folder == Images
+
+System Design
+
+The application follows a modular design with clear separation of concerns:
+
+1. **Data Processing Layer**: Handles loading and processing of CSV datasets
+2. **NLP Processing Layer**: Uses TF-IDF vectorization and cosine similarity to match user-reported symptoms
+3. **Diagnostic Engine**: Analyzes symptoms to determine likely diseases with confidence scores
+4. **Recommendation System**: Provides personalized recommendations based on diagnosis
+5. **API Layer**: Exposes endpoints for user interaction and authentication
+6. **Database Layer**: Manages user data and diagnosis history using SQLAlchemy with PostgreSQL
+
+## Data Flow
+
+1. User inputs symptoms via the API
+2. Symptoms are processed using NLP to match with known symptoms
+3. Matched symptoms are used to calculate disease scores
+4. Top diseases are identified with confidence scores
+5. Personalized recommendations are generated based on the diagnosis
+6. Results are returned to the user and stored in the database if user is authenticated
+
+## Windows Compatibility
+
+The system is designed to work flawlessly on Windows laptops without requiring additional installations:
+- Uses SQLite as an alternative to MongoDB for database functionality
+- All data processing is handled internally without external dependencies
+- NLTK resources are downloaded automatically if not already present
+- Self-contained design eliminates the need for complex setup procedures
+
+$$ How the python code should work 
+
+User Input -> text -> extract keywords from that text -> match the keywords from the csv files -> put the output 
+
+if the symptoms are not available in our csv or doesnt match with any data we have 
+use gemini-1.5-pro model for diease diagnosis ... then take the newly got data and enter it into our csv file 
+
+if the extracted keywords from user input are less than 3 then send a follow up question asking for 
+
+If a user provides only one symptom, AI should not immediately diagnose. Instead, it should ask relevant follow-up questions.
+
+Example 1:
+
+User: "I have had a fever for 5 days."
+
+AI: "Have you also experienced headaches or body pain?"
+
+Example 2:
+
+User: "I have a cough."
+
+AI: "Is it dry or with mucus? Do you have any chest pain?"
+
+Only when enough information is gathered should the AI provide a diagnosis and possible solutions.
+
+The Answer  should be
+
+Predicted Desise -
+
+Cause of Predicted Desise -
+
+Precaustions -
+
+Medicine -
+
+Workouts -
+
+Diet -
+
+
+Process symptoms using natural language processing
+
+Match symptoms to diseases from a medical database
+
+Generate personalized recommendations based on user profile
+
+Provide follow-up questions when needed
+
+Include data processing for:
+
+Disease descriptions
+
+Symptoms and their severity
+
+Treatment recommendations
+
+Medications
+
+Exercise suggestions
+
+Dietary advice
+
+The system should:
+
+Use NLTK for text processing
+
+Support user profiles with age, occupation, and medical history
+
+Generate personalized diagnoses
+
+Provide structured responses with precautions, medications, and lifestyle recommendations
+
+Use CSV files as the data source and implement proper error handling for robustness.
+
+Import data from a medical database or dataset
+
+We could integrate with a medical dataset like UMLS (Unified Medical Language System) or SNOMED CT
+
+We would need to:
+
+Find a comprehensive medical conditions dataset
+
+Transform it to match our current data structure
+
+Add the missing fields (precautions, medications, exercises, diet)
+
+Merge it with our existing data
+
+even after updating if no symtopms match the csv databases use gemini to create a proper answer then save the given answers, symptomps and dieases in the csv as a new line of data or diease
+
+and make sure dont answer / give the diagonosis until it have taken atleast 3 keywords
+
+also use gemini for conversation and make gemini create a proper follow up response using by making it analyse the csv data and if user hasn't mentioned 3 keywords and have given a summary e.g. i had fever from last 5 days I can't sleep properly and sometimes my head have pain or feel heavy
+
+make gemini analyse the text and generate atleast 3 keywords from the given input by user e.g. we can take sleeplessness, headace, fever as keywords from the given sentence
+
+once all the keywords are taken then give the diagnosis
+
+use these github python logic for better
+
+https://github.com/611noorsaeed/Medicine-Recommendation-System-Personalized-Medical-Recommendation-System-with-Machine-Learning
+
+https://www.kaggle.com/datasets/noorsaeed/medicine-recommendation-system-dataset description.csv diets.csv Training.csv symtoms_df.csv workout_df.csv medications.csv precautions_df.csv
+
+app.py process_diagnosis.py db.py diagnose.py diagnosis_model.py main.py
+
+
+
